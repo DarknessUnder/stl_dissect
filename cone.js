@@ -1,157 +1,6 @@
-
-function canvas1(){
- 
-    var canvas = document.getElementById("stl_cont1");
-    var ctx = canvas.getContext("2d");
-
-
-    var productImg = new Image();
-        productImg.onload = function () {
-            var iw = productImg.width;
-            var ih = productImg.height;
-            console.log("height");
-    
-            canvas.width = 400;
-            canvas.height = 400;
-    
-            ctx.drawImage(productImg, 0, 0, productImg.width, productImg.height,
-                          0, 0, iw, ih);
-            loadUpperIMage()              
-        };
-
-      productImg.src = "CURVED_FORM_TEMPLATE.jpg"
-
-    
-    function loadUpperIMage(){
-          var img = new Image();
-
-        img.src = "bunny.png"
-
-        img.onload = function()  {
-
-        var iw = img.width;
-        var ih = img.height;
-        
-         //alert(iw)
-        
-        var xOffset = 102, //left padding
-            yOffset = 110; //top padding
-        
-        var a = 75.0; //image width
-        var b = 10; //round ness
-        
-        var scaleFactor = iw / (4*a);
-
-        // draw vertical slices
-        for (var X = 0; X < iw; X+=1) {
-          var y = b/a * Math.sqrt(a*a - (X-a)*(X-a)); // ellipsis equation
-          ctx.drawImage(img, X * scaleFactor, 0,iw/2 , ih, X + xOffset, y + yOffset, 1, 174);
-        }
-    };
-    }
-
-};
-
-
-function canvas2(){
- 
-  var canvas = document.getElementById("stl_cont2");
-  var ctx = canvas.getContext("2d");
-
-
-  var productImg = new Image();
-      productImg.onload = function () {
-          var iw = productImg.width;
-          var ih = productImg.height;
-          console.log("height");
-  
-          canvas.width = 400;
-          canvas.height = 400;
-  
-          ctx.drawImage(productImg, 0, 0, productImg.width, productImg.height,
-                        0, 0, iw, ih);
-          loadUpperIMage()              
-      };
-
-    productImg.src = "CURVED_FORM_TEMPLATE.jpg"
-
-  
-  function loadUpperIMage(){
-        var img = new Image();
-
-      img.src = "bunny.png"
-
-      img.onload = function()  {
-
-      var iw = img.width;
-      var ih = img.height;
-      
-       //alert(iw)
-      
-      var xOffset = 102, //left padding
-          yOffset = 110; //top padding
-      
-      var a = 75.0; //image width
-      var b = 10; //round ness
-      
-      var scaleFactor = iw / (4*a);
-
-      // draw vertical slices
-      for (var X = 0; X < iw; X+=1) {
-        var y = b/a * Math.sqrt(a*a - (X-a)*(X-a)); // ellipsis equation
-        ctx.drawImage(img, X * scaleFactor, 0,iw/2 , ih, X + xOffset, y + yOffset, 1, 174);
-      }
-  };
-  }
-
-};
-
-
-
-function canvas3(){
- 
-  var canvas = document.getElementById("stl_cont3");
-  var ctx = canvas.getContext("2d");
-
-  loadUpperIMage() ;
-
-
-  
-  function loadUpperIMage(){
-        var img = new Image();
-
-      img.src = "bunny.png"
-
-      img.onload = function()  {
-
-      var iw = img.width;
-      var ih = img.height;
-      
-       //alert(iw)
-      
-      var xOffset = 102, //left padding
-          yOffset = 110; //top padding
-      
-      var a = 75.0; //image width
-      var b = 10; //round ness
-      
-      var scaleFactor = iw / (4*a);
-
-      // draw vertical slices
-      for (var X = 0; X < iw; X+=1) {
-        var y = b/a * Math.sqrt(a*a - (X-a)*(X-a)); // ellipsis equation
-        ctx.drawImage(img, X * scaleFactor, 0,iw/2 , ih, X + xOffset, y + yOffset, 1, 174);
-      }
-  };
-  }
-
-};
-
-
-setTimeout(function(){canvas1()} ,1000);
-setTimeout(function(){canvas2()} ,1000);
-setTimeout(function(){canvas3()} ,1000);
-
+var stl_viewer1 ;
+var stl_viewer2 ;
+var stl_viewer3 ;
 
 
 window.jsPDF = window.jspdf.jsPDF;
@@ -236,41 +85,174 @@ function uploadFile() {
     
 }
 
+//no rotation on z for the six sides
 
 function stlLoad(files){
 
 
-  document.getElementById('printPreview').setAttribute("style", "visibility:visible");
+    var canvasList = document.getElementsByTagName("canvas");
+
+    for (var i = 0, len = canvasList.length; i < len; i++) {
+        canvasList[0].remove();
+    }
+
+    document.getElementById('printPreview').setAttribute("style", "visibility:visible");
 
 
-  document.getElementById('downloadLink').setAttribute("class", "active");
 
+
+    stl_viewer1 = new StlViewer ( document.getElementById("stl_cont1") );
+    stl_viewer2 = new StlViewer ( document.getElementById("stl_cont2") );
+    stl_viewer3 = new StlViewer ( document.getElementById("stl_cont3") );
+
+
+
+    stl_viewer1.add_model ( {
+        id: 1,
+        local_file: files.files[0],
+        rotationx: -0.5 * 3.14,
+        rotationy: 0,
+        rotationz: 0,
+    });
+
+
+
+    stl_viewer2.add_model ( {
+        id: 1,
+        local_file: files.files[0],
+        rotationx: -0.5 * 3.14,
+        rotationy: 0,
+        rotationz: 0,
+    });
+        
+    stl_viewer3.add_model ( {
+        id: 1,
+        local_file: files.files[0],
+        rotationx: -0.5 * 3.14,
+        rotationy: 0,
+        rotationz: 0,
+    });
+
+    
+
+    document.getElementById('downloadLink').setAttribute("class", "active");
+
+}
+
+function setState(){
+    var stateSTL = stl_viewer1.get_camera_state();
+    //alert( JSON.stringify(stateSTL));
+    console.log( "Json form: " + JSON.stringify(stateSTL));
+    console.log( stateSTL);
+    //alert(parseInt(document.getElementById("xvar").value));
+    stl_viewer1.set_camera_state({"position":{"x":(0 + parseInt(document.getElementById("xvar").value)), "y": stateSTL.position.y, "z": stateSTL.position.z}, "target": {"x":(0 + parseInt(document.getElementById("xvar").value)), "y": stateSTL.target.y, "z": stateSTL.target.z }});
+    stl_viewer3.set_camera_state({"position":{"x":(0 - parseInt(document.getElementById("xvar").value)), "y": stateSTL.position.y, "z": stateSTL.position.z}, "target": {"x":(0 - parseInt(document.getElementById("xvar").value)), "y": stateSTL.target.y, "z": stateSTL.target.z }});
+    setPosition();
+  }
+
+function setPosition(){
+
+  //document.getElementById("xvar").value;
+/*
+$( "#stl_cont1" ).position({
+      my: "left top",
+      at: "left-" + (25 - document.getElementById("xvar").value) + "% top",
+      of: "#stl_cont2"
+    });
+  
+    $( "#stl_cont3" ).position({
+      my: "right top",
+      at: "right" + (25 - document.getElementById("xvar").value) + "% top",
+      of: "#stl_cont2"
+    });
+    */
+
+
+  if(document.getElementById("xvar").value < 5){
+    $( "#stl_cont1" ).position({
+      my: "left top",
+      at: "left-25% top",
+      of: "#stl_cont2"
+    });
+  
+    $( "#stl_cont3" ).position({
+      my: "right top",
+      at: "right+25% top",
+      of: "#stl_cont2"
+    });
+  }
+  else if(document.getElementById("xvar").value < 10)
+  {
+    $( "#stl_cont1" ).position({
+      my: "left top",
+      at: "left-15% top",
+      of: "#stl_cont2"
+    });
+  
+    $( "#stl_cont3" ).position({
+      my: "right top",
+      at: "right+15% top",
+      of: "#stl_cont2"
+    });
+  }
+  else if(document.getElementById("xvar").value < 15)
+  {
+    $( "#stl_cont1" ).position({
+      my: "left top",
+      at: "left-10% top",
+      of: "#stl_cont2"
+    });
+  
+    $( "#stl_cont3" ).position({
+      my: "right top",
+      at: "right+10% top",
+      of: "#stl_cont2"
+    });
+  }
+  else if(document.getElementById("xvar").value < 20)
+  {
+    $( "#stl_cont1" ).position({
+      my: "left top",
+      at: "left-5% top",
+      of: "#stl_cont2"
+    });
+  
+    $( "#stl_cont3" ).position({
+      my: "right top",
+      at: "right+5% top",
+      of: "#stl_cont2"
+    });
+  }
 }
 
 function updateAnno(){
-  //alert(document.getElementById("annoText").value);
-  document.getElementById("annoDisplay").innerText = document.getElementById("annoText").value;
-  //alert(document.getElementById("annoDisplayText").innerText);
+    //alert(document.getElementById("annoText").value);
+    document.getElementById("annoDisplay").innerText = document.getElementById("annoText").value;
+    //alert(document.getElementById("annoDisplayText").innerText);
 }
 
 function updateDimision(){
-  //alert(document.getElementById("distanceLeft").value);
-  //alert(document.getElementById("distanceRight").value);
-  document.getElementById('top').style.width= document.getElementById("distanceRight").value;
-  stl_viewer1.do_resize();
-  stl_viewer2.do_resize();
-  stl_viewer3.do_resize();
-  stl_viewer4.do_resize();
+    //alert(document.getElementById("distanceLeft").value);
+    //alert(document.getElementById("distanceRight").value);
+    document.getElementById('top').style.width= document.getElementById("distanceRight").value;
+    stl_viewer1.do_resize();
+    stl_viewer2.do_resize();
+    stl_viewer3.do_resize();
 }
 
 
 function loadBasic(){
-  stl_viewerMain.remove_model(1);
-  stl_viewerMain.add_model({id:1, filename:"Stanford_Bunny.stl",  animation:{delta:{rotationx:1,rotationy:0.5, msec:1000, loop:true}}});
+    stl_viewerMain.remove_model(1);
+    stl_viewerMain.add_model({id:1, filename:"Stanford_Bunny.stl",  animation:{delta:{rotationx:1,rotationy:0.5, msec:1000, loop:true}}});
 
 }
 
 $( function() {
-  $( "#top" ).draggable({ axis: "x" , containment: "parent"});
-  $( "#annoDisplay" ).draggable({containment: "parent"});
-} );
+    $( "#top" ).draggable({ axis: "x" , containment: "parent"});
+
+    $( "#stl_cont1" ).draggable({ axis: "y" , containment: "parent"});
+    $( "#stl_cont2" ).draggable({ axis: "y" , containment: "parent"});
+    $( "#stl_cont3" ).draggable({ axis: "y" , containment: "parent"});
+
+    $( "#annoDisplay" ).draggable({containment: "parent"});
+  } );

@@ -116,6 +116,8 @@ function stlLoad(files){
         rotationz: 0,
     });
 
+
+
     stl_viewer2.add_model ( {
         id: 1,
         local_file: files.files[0],
@@ -141,9 +143,17 @@ function stlLoad(files){
     });
     
 
-
     document.getElementById('downloadLink').setAttribute("class", "active");
 
+}
+
+function setState(){
+    var stateSTL = stl_viewer1.get_camera_state();
+    //alert( JSON.stringify(stateSTL));
+    console.log( "Json form: " + JSON.stringify(stateSTL));
+    console.log( stateSTL);
+    //alert(parseInt(document.getElementById("xvar").value));
+    stl_viewer1.set_camera_state({"position":{"x":(0 + parseInt(document.getElementById("xvar").value)), "y": stateSTL.position.y, "z": stateSTL.position.z}, "target": {"x":(0 + parseInt(document.getElementById("xvar").value)), "y": stateSTL.target.y, "z": stateSTL.target.z }});
 }
 
 function updateAnno(){
