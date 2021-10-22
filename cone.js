@@ -102,8 +102,7 @@ function stlLoad(files){
 
 
     stl_viewer1 = new StlViewer ( document.getElementById("stl_cont1") );
-    stl_viewer2 = new StlViewer ( document.getElementById("stl_cont2") );
-    stl_viewer3 = new StlViewer ( document.getElementById("stl_cont3") );
+ 
 
 
 
@@ -115,23 +114,6 @@ function stlLoad(files){
         rotationz: 0,
     });
 
-
-
-    stl_viewer2.add_model ( {
-        id: 1,
-        local_file: files.files[0],
-        rotationx: -0.5 * 3.14,
-        rotationy: 0,
-        rotationz: 0,
-    });
-        
-    stl_viewer3.add_model ( {
-        id: 1,
-        local_file: files.files[0],
-        rotationx: -0.5 * 3.14,
-        rotationy: 0,
-        rotationz: 0,
-    });
 
     
 
