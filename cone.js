@@ -232,7 +232,7 @@ function loadBasic(){
 $( function() {
     $( "#top" ).draggable({ axis: "x" , containment: "parent"});
 
-    $( "#stl_cont1" ).draggable({ axis: "y" , containment: "parent"});
+    $( "#stl_cont1" ).draggable();
     $( "#stl_cont2" ).draggable({ axis: "y" , containment: "parent"});
     $( "#stl_cont3" ).draggable({ axis: "y" , containment: "parent"});
 
